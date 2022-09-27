@@ -1,22 +1,13 @@
-// IMPORTS
 const express = require("express");
 const mysql = require("mysql2");
 const inputCheck = require("./utils/inputCheck");
 
-// PORT
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-// MIDDLEWARE
+// Express middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-// GET ROUTE
-// app.get("/", (req, res) => {
-//   res.json({
-//     message: "Hello World",
-//   });
-// });
 
 // Connect to database
 const db = mysql.createConnection(
@@ -99,10 +90,8 @@ app.post("/api/candidate", ({ body }, res) => {
     return;
   }
 
-  // Create a candidate
-  const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected)
-  VALUES (?,?,?,?)`;
-
+  const sql = `INSERT INTO candidates (first_name, last_name, industry_connected)
+    VALUES (?,?,?)`;
   const params = [body.first_name, body.last_name, body.industry_connected];
 
   db.query(sql, params, (err, result) => {
